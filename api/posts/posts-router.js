@@ -39,7 +39,7 @@ router.get('/:id', (req, res) => {
 
 router.post('/', async (req, res) => {
   const newPost = req.body;
-  if (!newPost.title || !newPost.content) {
+  if (!newPost.title || !newPost.contents) {
     res
       .status(401)
       .json({ message: 'Please provide title and contents for the post' });
@@ -62,6 +62,7 @@ router.put('/:id', async (req, res) => {
     res
       .status(400)
       .json({ message: 'Please provide title and contents for the post' });
+    console.log(changes);
   } else {
     try {
       const updatedPost = await postFunctions.update(id, changes);
