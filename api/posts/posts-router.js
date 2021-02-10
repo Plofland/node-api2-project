@@ -55,15 +55,43 @@ router.post('/', async (req, res) => {
   }
 });
 
+// router.put('/:id', (req, res) => {
+//   const { id } = req.params;
+//   const changes = req.body;
+//   try {
+//     if (!changes.title || !changes.contents) {
+//       res
+//         .status(400)
+//         .json({ message: 'Please provide title and contents for the post' });
+//     } else {
+//       postFunctions.update(id, changes).then((postId) => {
+//         if (postId) {
+//           postFunctions.findById(id).then((updatedPost) => {
+//             res.status(200).json(updatedPost);
+//           });
+//         } else {
+//           res
+//             .status(404)
+//             .json({ message: 'The post with the specified ID does not exist' });
+//         }
+//       });
+//     }
+//   } catch (error) {
+//     res
+//       .status(500)
+//       .json({ message: 'The post information could not be modified' });
+//   }
+// });
+
 router.put('/:id', async (req, res) => {
   const { id } = req.params;
   const changes = req.body;
-  if (!changes.title || !changes.contents) {
-    res
-      .status(400)
-      .json({ message: 'Please provide title and contents for the post' });
-  } else {
-    try {
+  try {
+    if (!changes.title || !changes.contents) {
+      res
+        .status(400)
+        .json({ message: 'Please provide title and contents for the post' });
+    } else {
       const updatedPost = await postFunctions.update(id, changes);
       if (updatedPost) {
         res.status(200).json(updatedPost);
@@ -72,11 +100,11 @@ router.put('/:id', async (req, res) => {
           .status(404)
           .json({ message: 'The post with the specified ID does not exist' });
       }
-    } catch (error) {
-      res
-        .status(500)
-        .json({ message: 'The post information could not be modified' });
     }
+  } catch (error) {
+    res
+      .status(500)
+      .json({ message: 'The post information could not be modified' });
   }
 });
 
